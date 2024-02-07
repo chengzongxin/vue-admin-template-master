@@ -118,6 +118,22 @@ export const constantRoutes = [
     ],
   },
 
+  {
+    path: "/other",
+    component: Layout,
+    redirect: "/other",
+    name: "Other",
+    meta: { title: "其他", icon: "el-icon-s-tools" },
+    children: [
+      {
+        path: "other",
+        name: "other",
+        component: () => import("@/views/other/upload"),
+        meta: { title: "其他", icon: "el-icon-s-data" },
+      },
+    ],
+  },
+
   // 404 page must be placed at the end !!!
   { path: "*", redirect: "/404", hidden: true },
 ];
