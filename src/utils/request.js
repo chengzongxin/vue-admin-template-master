@@ -5,7 +5,7 @@ import { removeToken, getToken } from "@/utils/auth";
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_URL, // url = base url + request url
-  withCredentials: true,
+  // withCredentials: true,
   timeout: 500000,
 });
 
