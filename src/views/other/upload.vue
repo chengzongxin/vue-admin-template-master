@@ -14,14 +14,28 @@
           只能上传jpg/png文件，且不超过500kb
         </div>
       </el-upload></div>
-    <div class="grid">
+    <!-- <div class="grid">
       <div v-for="item in list" :key="item" class="grid-item">
         <img class="grid-item-img" :src="item.url" alt="">
         <div>{{ formatSize(item.size) }}</div>
       </div>
-    </div>
+    </div> -->
 
     </el-upload>
+
+    <!-- <el-row :gutter="10">
+      <el-col v-for="item in list" :key="item" :xs="8" :sm="6" :md="4" :lg="3" :xl="3">
+        <img class="grid-item-img" :src="item.url" alt="">
+        <div>{{ formatSize(item.size) }}</div>
+      </el-col>
+    </el-row> -->
+
+    <el-row :gutter="20">
+      <el-col v-for="item in list" :span="3">
+        <img class="grid-item-img" :src="item.url" alt="">
+        <div>{{ formatSize(item.size) }}</div>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
