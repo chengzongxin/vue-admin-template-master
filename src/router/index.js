@@ -117,13 +117,13 @@ export const constantRoutes = [
     component: Layout,
     redirect: "/other",
     name: "Other",
-    meta: { title: "其他", icon: "el-icon-s-tools" },
+    meta: { title: "上传", icon: "el-icon-upload" },
     children: [
       {
         path: "other",
         name: "other",
         component: () => import("@/views/other/upload"),
-        meta: { title: "其他", icon: "el-icon-s-data" },
+        meta: { title: "上传", icon: "el-icon-upload" },
       },
     ],
   },
@@ -133,13 +133,13 @@ export const constantRoutes = [
     component: Layout,
     redirect: "/dynamic",
     name: "Dynamic",
-    meta: { title: "动态", icon: "el-icon-s-tools" },
+    meta: { title: "动态", icon: "el-icon-edit" },
     children: [
       {
         path: "index",
         name: "Index",
         component: () => import("@/views/dynamic/index"),
-        meta: { title: "其他", icon: "el-icon-s-data" },
+        meta: { title: "动态", icon: "el-icon-edit" },
       },
     ],
   },

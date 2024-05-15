@@ -23,6 +23,7 @@
 
     </el-upload>
 
+    <div style="margin-top: 20px; margin: 50px; margin-right: 100px" />
     <!-- <el-row :gutter="10">
       <el-col v-for="item in list" :key="item" :xs="8" :sm="6" :md="4" :lg="3" :xl="3">
         <img class="grid-item-img" :src="item.url" alt="">
