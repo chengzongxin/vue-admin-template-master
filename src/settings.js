@@ -1,6 +1,5 @@
 module.exports = {
-
-  title: 'TLIAS教学管理系统',
+  title: "辅助系统",
 
   /**
    * @type {boolean} true | false
@@ -12,5 +11,5 @@ module.exports = {
    * @type {boolean} true | false
    * @description Whether show the logo in sidebar
    */
-  sidebarLogo: false
-}
+  sidebarLogo: false,
+};

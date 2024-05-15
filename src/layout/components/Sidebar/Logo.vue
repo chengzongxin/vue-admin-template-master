@@ -1,31 +1,30 @@
 <template>
-  <div class="sidebar-logo-container" :class="{'collapse':collapse}">
+  <div class="sidebar-logo-container" :class="{ collapse: collapse }">
     <transition name="sidebarLogoFade">
-      <router-link  key="collapse" class="sidebar-logo-link" to="/">
-        <img src="@/assets/logo/hm-logo5.png" class="sidebar-logo">
-        <h1  class="sidebar-title">{{ title }} </h1>
+      <router-link key="collapse" class="sidebar-logo-link" to="/">
+        <img :src="logo" class="sidebar-logo" />
+        <h1 class="sidebar-title">{{ title }}</h1>
       </router-link>
-    
     </transition>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'SidebarLogo',
+  name: "SidebarLogo",
   props: {
     collapse: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      title: 'TLIAS智能学习辅助系统',
-      logo: 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png'
-    }
-  }
-}
+      title: "辅助系统",
+      logo: "https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png",
+    };
+  },
+};
 </script>
 
 <style lang="scss" scoped>

@@ -11,7 +11,7 @@
         style="width: 100%"
         border
       >
-        <el-table-column prop="id" label="方法名" width="100" />
+        <el-table-column prop="id" label="id" width="100" />
         <el-table-column prop="imgUrl" label="imgUrl" />
         <el-table-column prop="content" label="content" />
       </el-table>
