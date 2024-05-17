@@ -1,5 +1,11 @@
 <template>
   <div style="margin-top: 20px; margin: 50px; margin-right: 100px">
+    <!-- <img
+      src="https://pic.to8to.com/tc/spiders/87e81080f8c64903933c67b239ae8114.png"
+      alt=""
+      style="width: 100px; height: 100px"
+    /> -->
+
     <div>
       <el-upload
         class="upload-demo"
@@ -12,7 +18,7 @@
         <i class="el-icon-upload" />
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
         <div slot="tip" class="el-upload__tip">
-          只能上传jpg/png文件，且不超过500kb
+          <!-- 只能上传jpg/png文件，且不超过500kb -->
         </div>
       </el-upload>
     </div>
@@ -23,6 +29,20 @@
       </div>
     </div> -->
 
+    <el-tag
+      v-for="item in tags"
+      :key="item"
+      :type="''"
+      style="margin-right: 20px; margin-top: 20px"
+      @click="handleClick(item)"
+      >{{ item }}</el-tag
+    >
+
+    <div style="margin-top: 20px; margin: 50px; margin-right: 100px" />
+
+    <el-tag v-if="tags.length" type="danger" @click="handleClear"
+      >清除待上传文件</el-tag
+    >
     <div style="margin-top: 20px; margin: 50px; margin-right: 100px" />
 
     <!-- 数据表格 -->
@@ -34,10 +54,27 @@
         tooltip-effect="dark"
         style="width: 100%"
         border
+        stripe
       >
-        <el-table-column prop="id" label="id" width="100" />
+        <!-- <el-table-column prop="id" label="id" width="125">
+          <template slot-scope="scope">
+            <el-popover placement="top-start" title="" trigger="hover">
+              <img
+                :src="scope.row.imgUrl"
+                alt=""
+                style="width: 100px; height: 100px"
+              />
+              <img
+                slot="reference"
+                :src="scope.row.imgUrl"
+                style="width: 100px; height: 100px"
+              />
+            </el-popover>
+          </template>
+        </el-table-column> -->
+
         <el-table-column prop="imgUrl" label="imgUrl" />
-        <el-table-column prop="content" label="content" />
+        <el-table-column prop="content" label="content" width="300" />
       </el-table>
     </template>
 
@@ -60,6 +97,7 @@
 <script>
 import { getImageList } from "@/api/images";
 import { getToken } from "@/utils/auth";
+import { fileList, deleteOssFiles, getFile } from "@/api/upload";
 
 export default {
   data() {
@@ -72,12 +110,18 @@ export default {
         name: "",
       },
       tableData: [],
+      tags: [],
     };
   },
-  mounted() {
+  async mounted() {
     // 当页面加载完成后自动执行。
     this.init();
     console.log("mountd", this.tableData);
+    const res = await fileList();
+    console.log("res", res);
+    if (res.data.code === 1) {
+      this.tags = res.data.data;
+    }
   },
 
   methods: {
@@ -122,6 +166,22 @@ export default {
       } else {
         this.$message.error("上传失败");
       }
+    },
+    async handleClick(item) {
+      const res = await getFile(item);
+      console.log("res", res);
+      const data = res;
+      const url = window.URL.createObjectURL(new Blob([data]));
+      const link = document.createElement("a");
+      link.style.display = "none";
+      link.href = url;
+      link.setAttribute("download", item);
+      document.body.appendChild(link);
+      link.click();
+    },
+    async handleClear() {
+      const res2 = await deleteOssFiles();
+      console.log("res2", res2);
     },
   },
 };
