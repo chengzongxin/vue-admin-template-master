@@ -35,14 +35,15 @@
       :type="''"
       style="margin-right: 20px; margin-top: 20px"
       @click="handleClick(item)"
-      >{{ item }}</el-tag
-    >
+    >{{ item }}</el-tag>
 
     <div style="margin-top: 20px; margin: 50px; margin-right: 100px" />
 
-    <el-tag v-if="tags.length" type="danger" @click="handleClear"
-      >清除待上传文件</el-tag
-    >
+    <el-tag
+      v-if="tags.length"
+      type="danger"
+      @click="handleClear"
+    >清除待上传文件</el-tag>
     <div style="margin-top: 20px; margin: 50px; margin-right: 100px" />
 
     <!-- 数据表格 -->
@@ -60,25 +61,21 @@
           <template slot-scope="scope">
             <el-popover placement="top-start" title="" trigger="hover">
               <img
-                :src="scope.row.imgUrl"
-                alt=""
-                style="width: 50px; height: 50px"
-              />
-              <img
                 slot="reference"
-                :src="scope.row.imgUrl"
-                style="width: 50px; height: 50px"
-              />
+                :src="scope.row.url"
+                style="width: 50px; height: 50px; object-fit: contain"
+              ></img>
             </el-popover>
           </template>
         </el-table-column>
-        <el-table-column prop="content" label="content" width="300" />
-        <el-table-column prop="imgUrl" label="imgUrl" />
+        <el-table-column prop="name" label="name" width="300" />
+        <el-table-column prop="url" label="url" />
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button size="mini" @click="handleCopy(scope.$index, scope.row)"
-              >复制链接</el-button
-            >
+            <el-button
+              size="mini"
+              @click="handleCopy(scope.$index, scope.row)"
+            >复制链接</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -101,19 +98,19 @@
 </template>
 
 <script>
-import { getImageList } from "@/api/images";
-import { getToken } from "@/utils/auth";
-import { fileList, deleteOssFiles, getFile } from "@/api/upload";
+import { getImageList } from '@/api/images'
+import { getToken } from '@/utils/auth'
+import { fileList, deleteOssFiles, getFile } from '@/api/upload'
 
 export default {
   data() {
     return {
       list: [1, 2, 3, 4, 5, 6, 7, 8],
       token: { token: getToken() },
-      formLabelWidth: "120px",
+      formLabelWidth: '120px',
       dialogFormVisible: false, // 控制对话框是否可见
       dept: {
-        name: "",
+        name: ''
       },
       tableData: [
         // {
@@ -122,17 +119,17 @@ export default {
         //   content: "123",
         // },
       ],
-      tags: [],
-    };
+      tags: []
+    }
   },
   async mounted() {
     // 当页面加载完成后自动执行。
-    this.init();
-    console.log("mountd", this.tableData);
-    const res = await fileList();
-    console.log("res", res);
+    this.init()
+    console.log('mountd', this.tableData)
+    const res = await fileList()
+    console.log('res', res)
     if (res.data.code === 1) {
-      this.tags = res.data.data;
+      this.tags = res.data.data
     }
   },
 
@@ -140,24 +137,24 @@ export default {
     // 初始化 - 查询全部
     init() {
       getImageList().then((result) => {
-        console.log(result);
+        console.log(result)
         if (result.data.code === 1) {
-          this.list = result.data.data;
+          this.tableData = result.data.data.reverse()
         }
-      });
+      })
     },
     formatSize(size) {
-      if (!size) return "";
+      if (!size) return ''
       if (size < 1024) {
-        return size + "B";
+        return size + 'B'
       } else if (size < 1024 * 1024) {
-        return (size / 1024).toFixed(2) + "KB";
+        return (size / 1024).toFixed(2) + 'KB'
       } else {
-        return (size / 1024 / 1024).toFixed(2) + "M";
+        return (size / 1024 / 1024).toFixed(2) + 'M'
       }
     },
     handleSuccess(response, file, fileList) {
-      console.log("handleSuccess", response, file, fileList);
+      console.log('handleSuccess', response, file, fileList)
 
       if (response.code === 1) {
         // this.$message.success('上传成功')
@@ -165,58 +162,54 @@ export default {
         //   imgUrl: response.data[2].splite(" ")[0],
         //   content: response.data[2].splite(" ")[1],
         // };
-        const array = response.data;
+        const array = response.data
         for (let i = 0; i < array.length; i++) {
-          const { imgUrl, content } = array[i];
-          this.tableData.push({
-            content: content.split("/").pop(),
-            imgUrl,
-          });
+          this.tableData.unshift(array[i])
         }
 
         // this.tableData.push(obj);
       } else {
-        this.$message.error("上传失败");
+        this.$message.error('上传失败')
       }
     },
     async handleClick(item) {
-      const res = await getFile(item);
-      console.log("res", res);
-      const data = res;
-      const url = window.URL.createObjectURL(new Blob([data]));
-      const link = document.createElement("a");
-      link.style.display = "none";
-      link.href = url;
-      link.setAttribute("download", item);
-      document.body.appendChild(link);
-      link.click();
+      const res = await getFile(item)
+      console.log('res', res)
+      const data = res
+      const url = window.URL.createObjectURL(new Blob([data]))
+      const link = document.createElement('a')
+      link.style.display = 'none'
+      link.href = url
+      link.setAttribute('download', item)
+      document.body.appendChild(link)
+      link.click()
     },
     async handleClear() {
-      const res2 = await deleteOssFiles();
-      console.log("res2", res2);
+      const res2 = await deleteOssFiles()
+      console.log('res2', res2)
     },
     handleCopy(a1, { imgUrl, content }) {
-      console.log(a1, imgUrl, content);
+      console.log(a1, imgUrl, content)
 
       // 获取要复制的文本
-      const textToCopy = imgUrl;
+      const textToCopy = imgUrl
 
       // 创建一个临时的 textarea 元素
-      const textarea = document.createElement("textarea");
-      textarea.value = textToCopy;
-      document.body.appendChild(textarea);
+      const textarea = document.createElement('textarea')
+      textarea.value = textToCopy
+      document.body.appendChild(textarea)
 
       // 选择文本
-      textarea.select();
-      textarea.setSelectionRange(0, textarea.value.length);
+      textarea.select()
+      textarea.setSelectionRange(0, textarea.value.length)
       // 复制文本到剪贴板
-      document.execCommand("copy");
+      document.execCommand('copy')
       // 移除临时的 textarea 元素
-      document.body.removeChild(textarea);
-      this.$message.success("复制成功");
-    },
-  },
-};
+      document.body.removeChild(textarea)
+      this.$message.success('复制成功')
+    }
+  }
+}
 </script>
 <style>
 .grid {
