@@ -57,7 +57,7 @@
         border
         stripe
       >
-        <el-table-column prop="id" label="id" width="100">
+        <el-table-column label="content" width="100">
           <template slot-scope="scope">
             <el-popover placement="top-start" title="" trigger="hover">
               <img
@@ -68,7 +68,7 @@
             </el-popover>
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="name" width="300" />
+        <el-table-column prop="name" label="name" width="150" />
         <el-table-column prop="url" label="url" />
         <el-table-column label="操作">
           <template slot-scope="scope">
@@ -139,7 +139,7 @@ export default {
       getImageList().then((result) => {
         console.log(result)
         if (result.data.code === 1) {
-          this.tableData = result.data.data.reverse()
+          this.tableData = result.data.data
         }
       })
     },
@@ -188,11 +188,11 @@ export default {
       const res2 = await deleteOssFiles()
       console.log('res2', res2)
     },
-    handleCopy(a1, { imgUrl, content }) {
-      console.log(a1, imgUrl, content)
+    handleCopy(a1, obj) {
+      console.log(a1, obj)
 
       // 获取要复制的文本
-      const textToCopy = imgUrl
+      const textToCopy = obj.url
 
       // 创建一个临时的 textarea 元素
       const textarea = document.createElement('textarea')
