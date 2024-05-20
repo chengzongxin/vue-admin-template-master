@@ -17,6 +17,7 @@ export function getFile(id) {
   return request({
     url: `uploadoss/${id}`,
     method: "get",
+    responseType: "blob", // 设置响应类型为blob,这样才能触发下载
   });
 }
 

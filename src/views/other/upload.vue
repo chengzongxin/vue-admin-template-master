@@ -175,7 +175,8 @@ export default {
     async handleClick(item) {
       const res = await getFile(item)
       console.log('res', res)
-      const data = res
+      // 设置响应类型为blob,这样才能触发下载， 取出原始数据
+      const data = res.data
       const url = window.URL.createObjectURL(new Blob([data]))
       const link = document.createElement('a')
       link.style.display = 'none'
