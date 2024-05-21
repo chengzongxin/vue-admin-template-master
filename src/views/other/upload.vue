@@ -125,23 +125,28 @@ export default {
   async mounted() {
     // 当页面加载完成后自动执行。
     this.init()
-    console.log('mountd', this.tableData)
-    const res = await fileList()
-    console.log('res', res)
-    if (res.data.code === 1) {
-      this.tags = res.data.data
-    }
   },
 
   methods: {
     // 初始化 - 查询全部
     init() {
+      this.loadImageList()
+      this.loadFileList()
+    },
+    async loadImageList() {
       getImageList().then((result) => {
         console.log(result)
         if (result.data.code === 1) {
           this.tableData = result.data.data
         }
       })
+    },
+    async loadFileList() {
+      const res = await fileList()
+      console.log('res', res)
+      if (res.data.code === 1) {
+        this.tags = res.data.data
+      }
     },
     formatSize(size) {
       if (!size) return ''
@@ -188,6 +193,7 @@ export default {
     async handleClear() {
       const res2 = await deleteOssFiles()
       console.log('res2', res2)
+      this.loadFileList()
     },
     handleCopy(a1, obj) {
       console.log(a1, obj)
