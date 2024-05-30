@@ -21,6 +21,7 @@
 
 <script>
 import { dynamicList } from "@/api/dynamic.js";
+// test
 
 export default {
   data() {
