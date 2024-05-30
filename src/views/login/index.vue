@@ -64,6 +64,7 @@
 import { validUsername } from "@/utils/validate";
 import { login } from "@/api/user";
 import { setToken } from "@/utils/auth";
+import { addDynamicRoute } from "@/router/index";
 export default {
   name: "Login",
   data() {
@@ -129,7 +130,10 @@ export default {
             console.log(result);
             if (result.data.code == 1) {
               setToken(result.data.data);
-              console.log("login success");
+              console.log("login success", result);
+              if (result.data.username === "eren") {
+                addDynamicRoute();
+              }
               this.$router.push("/");
             } else {
               this.$message.error(result.data.msg);

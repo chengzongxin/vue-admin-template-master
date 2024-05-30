@@ -99,4 +99,40 @@ export function resetRouter() {
   router.matcher = newRouter.matcher; // reset router
 }
 
+export function addRoute(route) {
+  console.log("router123", router);
+
+  // 检查路由是否已经存在
+  const hasRoute = router.options.routes.some((r) => r.path === route.path);
+  if (!hasRoute) {
+    // 动态添加路由
+    router.addRoutes([route]);
+    // 还需要手动更新router.options.routes
+    router.options.routes.push(route);
+    console.log(`Route with path ${route.path} added`);
+  } else {
+    console.log(`Route with path ${route.path} already exists`);
+  }
+}
+
+export function addDynamicRoute() {
+  const dynamicRoute = {
+    path: "/dynamic",
+    component: Layout,
+    redirect: "/dynamic",
+    name: "Dynamic",
+    meta: { title: "动态", icon: "el-icon-edit" },
+    children: [
+      {
+        path: "index",
+        name: "Index",
+        component: () => import("@/views/dynamic/index"),
+        meta: { title: "动态", icon: "el-icon-edit" },
+      },
+    ],
+  };
+
+  addRoute(dynamicRoute);
+}
+
 export default router;
