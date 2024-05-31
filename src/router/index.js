@@ -64,21 +64,21 @@ export const constantRoutes = [
   //   ],
   // },
 
-  // {
-  //   path: "/dynamic",
-  //   component: Layout,
-  //   redirect: "/dynamic",
-  //   name: "Dynamic",
-  //   meta: { title: "动态", icon: "el-icon-edit" },
-  //   children: [
-  //     {
-  //       path: "index",
-  //       name: "Index",
-  //       component: () => import("@/views/dynamic/index"),
-  //       meta: { title: "动态", icon: "el-icon-edit" },
-  //     },
-  //   ],
-  // },
+  {
+    path: "/dynamic",
+    component: Layout,
+    redirect: "/dynamic",
+    name: "Dynamic",
+    meta: { title: "动态", icon: "el-icon-edit" },
+    children: [
+      {
+        path: "index",
+        name: "Index",
+        component: () => import("@/views/dynamic/index"),
+        meta: { title: "动态", icon: "el-icon-edit" },
+      },
+    ],
+  },
 
   // 404 page must be placed at the end !!!
   { path: "*", redirect: "/404", hidden: true },
