@@ -22,6 +22,7 @@
         class="editor"
         placeholder="Enter Markdown here..."
         @paste="handlePaste"
+        @input="handleInput"
       />
       <div v-if="previewVisible" class="preview markdown-body">
         <div v-highlight class="preview-content" v-html="compiledMarkdown" />
@@ -59,6 +60,12 @@ export default {
         },
         breaks: true,
       });
+    },
+  },
+  watch: {
+    markdownText(newContent) {
+      // this.handleInput();
+      this.updateContent();
     },
   },
   mounted() {
@@ -263,6 +270,10 @@ export default {
           console.error("Failed to submit content:", error);
           alert("Failed to submit content:", error);
         });
+    },
+    handleInput() {
+      // console.log("11111");
+      // this.updateContent();
     },
     async updateContent() {
       try {
