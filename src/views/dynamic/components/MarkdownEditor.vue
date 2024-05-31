@@ -35,16 +35,18 @@
 import { marked } from "marked";
 import hljs from "highlight.js";
 import axios from "axios";
+import { getToken } from "@/utils/auth"; // get token from cookie
+
 console.log("hljs", hljs);
 
 export default {
   data() {
     return {
-      token:
-        "eyJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6IjEyMzQ1NiIsImlkIjoxLCJ1c2VybmFtZSI6ImppbnlvbmciLCJleHAiOjE3MTcxNzAwMTJ9.gCItpJk5LmO6t2eUlddqkHsw9edMfn6US3Y9nmCAL-g",
+      token: getToken(),
       markdownText: "",
       previewVisible: true,
       dynamic: {},
+      baseURL: process.env.VUE_APP_URL, // url = base url + request url
     };
   },
   computed: {
@@ -80,15 +82,11 @@ export default {
       //   });
 
       try {
-        const response = await axios.get(
-          "http://192.168.16.50:9090/dynamic/list",
-          {
-            headers: {
-              token:
-                "eyJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6IjEyMzQ1NiIsImlkIjoxLCJ1c2VybmFtZSI6ImppbnlvbmciLCJleHAiOjE3MTcxNzAwMTJ9.gCItpJk5LmO6t2eUlddqkHsw9edMfn6US3Y9nmCAL-g",
-            },
-          }
-        );
+        const response = await axios.get(this.baseURL + "dynamic/list", {
+          headers: {
+            token: this.token,
+          },
+        });
         // this.blogs = response.data;
         this.dynamic = response.data.data.at(-1);
         console.log("dynamic", this.dynamic);
@@ -174,7 +172,7 @@ export default {
       formData.append("file", blob, "image.png");
 
       // 发送 FormData 对象到服务器 http://192.168.16.50:9090/uploadoss
-      fetch("http://192.168.16.50:9090/upload/images", {
+      fetch(this.baseURL + "upload/images", {
         method: "POST",
         body: formData,
       })
@@ -240,7 +238,7 @@ export default {
     submitContent() {
       // 提交内容给后台服务器
 
-      fetch("http://192.168.16.50:9090/dynamic/insert", {
+      fetch(this.baseURL + "dynamic/insert", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -269,7 +267,7 @@ export default {
     async updateContent() {
       try {
         await axios.post(
-          "http://192.168.16.50:9090/dynamic/update",
+          this.baseURL + "dynamic/update",
           {
             id: this.dynamic.id,
             content: this.markdownText,
