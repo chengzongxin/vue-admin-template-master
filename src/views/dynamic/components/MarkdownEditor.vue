@@ -37,6 +37,7 @@ import { marked } from "marked";
 import hljs from "highlight.js";
 import axios from "axios";
 import { getToken } from "@/utils/auth"; // get token from cookie
+import { dynamicList } from "../../../api/dynamic";
 
 console.log("hljs", hljs);
 
@@ -89,11 +90,7 @@ export default {
       //   });
 
       try {
-        const response = await axios.get(this.baseURL + "dynamic/list", {
-          headers: {
-            token: this.token,
-          },
-        });
+        const response = await dynamicList();
         // this.blogs = response.data;
         this.dynamic = response.data.data.at(-1);
         console.log("dynamic", this.dynamic);
